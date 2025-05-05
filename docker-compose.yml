@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: barali_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: barali_user
+      POSTGRES_PASSWORD: barali_pass
+      POSTGRES_DB: barali_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: barali_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@barali.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5055:80" 
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+
+
+
+
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet:
